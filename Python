@@ -1,0 +1,29 @@
+principal_amount = float(input("Enter the principal amount: "))
+interest_rate = float(input("Enter the interest rate: "))
+tenure = int(input("Enter the tenure (in years): "))
+
+monthly_interest_rate = interest_rate / 12 / 100
+monthly_payment = principal_amount * monthly_interest_rate / (1 - (1 + monthly_interest_rate) ** (-tenure * 12))
+
+table_header = ['Month', 'Payment', 'Principal Paid', 'Interest Paid', 'Remaining Principal']
+table_data = []
+remaining_principal = principal_amount
+
+for month in range(1, tenure * 12 + 1):
+    interest_paid = remaining_principal * monthly_interest_rate
+    principal_paid = monthly_payment - interest_paid
+    remaining_principal -= principal_paid
+    table_data.append([month, monthly_payment, principal_paid, interest_paid, remaining_principal])
+
+print("Payment Schedule:")
+print("-" * 73)
+print(f"| {'Month':<5} | {'Payment':<10} | {'Principal Paid':<13} | {'Interest Paid':<13} | {'Remaining Principal':<18} |")
+print("-" * 73)
+for data in table_data:
+    print(f"| {data[0]:<5} | {data[1]:<10.2f} | {data[2]:<13.2f} | {data[3]:<13.2f} | {data[4]:<18.2f} |")
+print("-" * 73)
+
+if remaining_principal <= 0:
+    print("The amount is fully paid.")
+else:
+    print("The amount is not fully paid.")
